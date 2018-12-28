@@ -11,7 +11,13 @@ namespace WebAPI.Controllers
     [RoutePrefix("api/listings")]
     public class ListingController: ApiController
     {
-        readonly ListingService listingService = new ListingService();
+        readonly IListingService listingService;
+
+        public ListingController(IListingService listingService)
+        {
+            this.listingService = listingService;
+
+        }
 
         [HttpGet, Route]
         public List<Listing> GetAll()

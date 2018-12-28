@@ -9,7 +9,7 @@ using WebAPI.Models;
 
 namespace WebAPI.Services
 {
-    public class ListingService
+    public class ListingService : IListingService
     {
         public List<Listing> GetAll()
         {
