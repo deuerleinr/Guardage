@@ -47,6 +47,8 @@ namespace WebAPI.Services
             }  // calls con.Dispose()  (because SqlConnection implements IDisposable)
         }
 
+         
+
 
         public int Create(ListingCreate request)
         {
@@ -69,6 +71,10 @@ namespace WebAPI.Services
             }
             
         }
+
+
+
+
 
 
         // helper method to create and open a database connection

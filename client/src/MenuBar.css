@@ -1,0 +1,76 @@
+.root{     
+     display:grid;
+    grid-template-columns: .2fr auto auto; 
+    grid-template-areas:
+    "menu-logo menu-button-row menu-login-items";   
+      
+}
+
+.menu-logo{
+ grid-area: menu-logo; 
+ color:white;  
+ text-align: center; 
+ background-color:#333333;
+ padding: 16px;
+ font: 35px Georgia, sans-serif; 
+
+} 
+
+.menu-button-row {
+    grid-area: menu-button-row; 
+    padding-left: 30px;
+    padding-top: 10px;
+    background-color:#333333;
+}
+
+
+
+.menu-login-items{
+    grid-area: menu-login-items; 
+    padding-top: 10px;
+    background-color:#333333;
+  
+}
+
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color:#333333;
+     
+}
+
+li  {
+    float: left;
+}
+
+.right {
+    float: right;
+}
+
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 16px;
+    text-decoration: none;
+}
+
+li a:hover{
+    background-color: #111111
+}
+
+.logoff-icon {
+    margin-left: 15px;
+    margin-right:25px;
+}
+
+
+
+
+
+
+
+

@@ -25,6 +25,19 @@ namespace WebAPI.Controllers
             return listingService.GetAll();
         }
 
+
+        //GET BY ID ---------------------------------------
+        //[HttpGet, Route("{id:int}")]
+       // public List<Listing> GetById(int id)
+         
+       // {
+        //    return listingService.GetById();
+       // }
+
+
+
+
+
         [HttpPost, Route]
         public int Create(ListingCreate model)
         {

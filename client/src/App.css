@@ -1,0 +1,43 @@
+ .result-card{
+   /* height: 300px; */
+   width:  290px;
+   max-height: 300px;
+   max-width: 290px;   
+   margin:20px;
+   padding: 20px;
+   display: inline-block;
+   box-shadow: rgba(0, 0, 0, 0.3) 0px 0px 6px;    
+   
+ }
+
+ .result-card:hover  {
+  box-shadow: rgba(0, 0, 0, 0.788) 0px 0px 16px;    
+ }
+
+ .result-card:hover .result-image{
+  transform: scale(1.15)
+ }
+
+ .result-image{ 
+   width:80%;
+   max-height: 240px;
+   display: block;
+   margin-left: auto;
+   margin-right: auto;
+   transition: transform .2s; 
+ }
+
+ .result-container{ 
+  width:88%;
+  margin-left: auto;
+  margin-right: auto;
+ }
+
+ .result-host{
+  margin-top: 10px;
+  width:80%;
+  margin-left: auto;
+  margin-right: auto; 
+  font-size:1.2em;
+  text-align: center;
+ }
