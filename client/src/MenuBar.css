@@ -1,9 +1,8 @@
-.root{     
+.rootmenu{     
      display:grid;
     grid-template-columns: .2fr auto auto; 
     grid-template-areas:
-    "menu-logo menu-button-row menu-login-items";   
-      
+    "menu-logo menu-button-row menu-login-items";    
 }
 
 .menu-logo{
@@ -67,7 +66,12 @@ li a:hover{
     margin-right:25px;
 }
 
-
+.menubar{
+    position: fixed;  
+      top: 0;  
+      width: 100%;
+      z-index: 3;
+    }
 
 
 

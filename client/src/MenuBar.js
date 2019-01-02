@@ -4,7 +4,7 @@ import "./MenuBar.css";
 class MenuBar extends React.Component {
   render() {
     return (
-      <div className="root">
+      <div className="rootmenu">
         <div className="menu-logo">GUARDAGE</div>
 
         <ul className="menu-button-row">
