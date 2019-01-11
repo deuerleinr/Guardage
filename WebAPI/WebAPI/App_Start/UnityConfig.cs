@@ -45,6 +45,7 @@ namespace WebAPI
             // container.RegisterType<IProductRepository, ProductRepository>();
 
             container.RegisterType<IListingService, ListingService>();
+            container.RegisterType<ISellerService, SellerService>();
         }
     }
 }

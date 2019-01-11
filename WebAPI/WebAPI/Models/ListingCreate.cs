@@ -16,6 +16,8 @@ namespace WebAPI.Models
         public int SellerId { get; set; }
         public decimal Price { get; set; }     
         public string Status { get; set; }
+        public string History { get; set; }
+        public string LiveDead { get; set; }
 
     }
 }

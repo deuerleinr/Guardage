@@ -1,0 +1,60 @@
+.root{
+  display: grid;
+  grid-template-columns: 1fr  1fr;
+  grid-template-rows: 
+
+}
+
+.root {
+    display: grid;
+    grid-template-columns:  1fr 1fr;
+    grid-template-rows:  40px 100px 320px 40px;
+    grid-template-areas:    
+    "infringingEmail templateTitle"
+    "infringingHost template"
+    "infringingUrl template"
+    "btnRow btnRow";    
+}
+
+.btn {
+    height: 40px;    
+    background-color:rgb(54, 234, 123);
+    color:white;
+    margin: 0 0 0 0;   
+    width: 100%;
+}
+
+.btnRow{
+    grid-area:btnRow;    
+}
+
+.infringingEmail{
+    grid-area:infringingEmail;
+    margin: 5px 0 0 0;
+    padding: 0 25px 0 0;
+}
+
+.infringingHost{
+    grid-area:infringingHost;
+    margin: 50px 0 0 0;
+    padding: 0 25px 0 0;
+}
+
+.infringingUrl{
+    grid-area: infringingUrl;
+    margin: 40px 0 0 0;
+    padding: 0 25px 0 0;
+}
+
+.templateTitle{
+    grid-area: templateTitle;
+    
+}
+
+.template{    
+    grid-area:template;
+    font-size: .8em;
+    overflow-y: scroll;
+    padding: 0 0 0 0;
+    margin: 0 0 20px 0;   
+}

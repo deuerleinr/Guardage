@@ -1,0 +1,66 @@
+.root {
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 45px 640px;
+    grid-template-areas:
+    "topArea topArea"
+    "listingContainer sellerContainer";
+    background-color:white;
+}
+
+.topArea {
+    grid-area:topArea;    
+    margin: 0 32px 0 32px;
+    padding: 0 0 0 0;
+}
+
+.btnClose{
+    font-size:2.5em;
+    float:right;
+    background-color:transparent;
+    border:none;
+    margin: 2px 0 0 0;
+    outline:none;    
+}
+
+.btnClose:hover{
+    cursor: pointer;
+    color:red;
+}
+
+.listingContainer{
+    background-color: white;
+    grid-area: listingContainer;
+    border: solid 1px black;
+    margin: 10px 32px 0 32px;
+    padding: 12px;
+    overflow-y:scroll;
+    border-radius: 1%;
+}
+
+
+.sellerContainer {
+    background-color:white;
+    grid-area: sellerContainer;
+    border: solid 1px black;
+    margin: 10px 32px 0 32px;
+    padding: 12px;
+    overflow-y:scroll;
+    border-radius: 1%;
+}
+
+.input {
+    width:  600px;
+    margin: 0 0 12px  0 ;
+    height: 30px;
+    font-size: 1.3em;
+}
+
+.btnSubmit {
+    height: 40px;
+    width: 100%;
+    max-width:   600px;
+    background-color:rgb(54, 234, 123);
+    color:white;
+    margin: 15px 0 0 0;    
+}

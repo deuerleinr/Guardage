@@ -1,38 +1,56 @@
 import React from "react";
-import "./MenuBar.css";
+import styles from "./MenuBar.module.css";
+import { withRouter } from "react-router-dom";
 
 class MenuBar extends React.Component {
+  state = {
+    stuff: ""
+  };
+
+  onClickData = () => {
+    this.props.history.push("../listingcreate");
+  };
+
+  logout = () => {
+    this.props.history.push("/");
+  };
+
+  onClickGuardage = () => {
+    this.props.history.push("/");
+  };
+
   render() {
     return (
-      <div className="rootmenu">
-        <div className="menu-logo">GUARDAGE</div>
+      <div className={[styles.rootMenu, styles.menuBar].join(" ")}>
+        <div className={styles.menuLogo}>
+          <button className={styles.btnGuardage} onClick={this.onClickGuardage}>
+            GUARDAGE
+          </button>
+        </div>
 
-        <ul className="menu-button-row">
+        <ul className={styles.menuButtonRow}>
           <li>
-            <a href="wwww.google.com">Search</a>
+            <button className={styles.btn}>Search</button>
           </li>
           <li>
-            <a href="wwww.google.com"> Process </a>
+            <button className={styles.btn}>Lists</button>
           </li>
           <li>
-            <a href="wwww.google.com"> Lists </a>
-          </li>
-          <li>
-            <a href="wwww.google.com"> Settings </a>
+            <button className={styles.btn} onClick={this.onClickData}>
+              Data
+            </button>
           </li>
         </ul>
-
-        <ul className="menu-login-items">
-          <li className="right">
-            <a href="wwww.google.com">
-              Logout
-              <i className="fa fa-power-off logoff-icon" />
-            </a>
+        <ul className={styles.menuLoginItems}>
+          <li className={styles.right}>
+            <button className={styles.btn} onClick={this.logout}>
+              Logout <i className="fa fa-power-off " />
+            </button>
           </li>
-          <li className="right">
-            <a href="wwww.google.com">
+          <li className={styles.registerBtn}>
+            <button className={styles.btn}>
               <span>John Smith</span>
-            </a>
+            </button>
           </li>
         </ul>
       </div>
@@ -40,4 +58,4 @@ class MenuBar extends React.Component {
   }
 }
 
-export default MenuBar;
+export default withRouter(MenuBar);

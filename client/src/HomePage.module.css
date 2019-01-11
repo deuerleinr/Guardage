@@ -1,0 +1,48 @@
+.resultCard{
+  height: 230px; 
+  width:  230px;
+  max-height: 230px;
+  max-width: 230px;   
+  margin:20px; 
+  padding: 10px;
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 0px 6px;  
+  display: inline-block;    
+}
+
+.resultCard:hover  {
+ box-shadow: rgba(0, 0, 0, 0.788) 0px 0px 16px;    
+ cursor: pointer;
+}
+
+.resultCard:hover .result-image{
+ transform: scale(1.10)
+}
+
+.resultImage{ 
+  width:80%;
+  height: 80%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  transition: transform .2s; 
+}
+
+.resultContainer{ 
+
+ width: auto;
+  max-width:80%;
+  display:block;
+ margin-left: auto;
+ margin-right: auto;
+  /* background-color: antiquewhite;  */
+}
+
+.resultHost{
+ margin-top: 10px;
+ width:80%;
+ margin-left: auto;
+ margin-right: auto; 
+ font-size:1.2em;
+ text-align: center;
+}
+

@@ -7,5 +7,7 @@ namespace WebAPI.Services
     {
         int Create(ListingCreate request);
         List<Listing> GetAll();
+        Listing GetById(int id);
+        void Update(ListingUpdateRequest request);
     }
 }

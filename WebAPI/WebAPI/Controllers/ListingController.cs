@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 using WebAPI.Models;
 using WebAPI.Services;
+
 
 namespace WebAPI.Controllers
 {
@@ -12,11 +16,12 @@ namespace WebAPI.Controllers
     public class ListingController: ApiController
     {
         readonly IListingService listingService;
+        readonly EmailService emailService;
 
-        public ListingController(IListingService listingService)
+        public ListingController(IListingService listingService, EmailService emailService)
         {
             this.listingService = listingService;
-
+            this.emailService = emailService;
         }
 
         [HttpGet, Route]
@@ -24,25 +29,34 @@ namespace WebAPI.Controllers
         {
             return listingService.GetAll();
         }
-
-
-        //GET BY ID ---------------------------------------
-        //[HttpGet, Route("{id:int}")]
-       // public List<Listing> GetById(int id)
          
-       // {
-        //    return listingService.GetById();
-       // }
+        
 
 
 
-
+        [HttpGet, Route("{id:int}")]
+        public Listing GetById(int id)         
+        {
+            return listingService.GetById(id);
+        }               
 
         [HttpPost, Route]
         public int Create(ListingCreate model)
         {
             return listingService.Create(model);
         }
-              
+
+        [HttpPut, Route ("{id:int}")]
+        public void Update(ListingUpdateRequest model)
+        {
+            listingService.Update(model);
+        }
+         
+        [HttpPost, Route ("email")]
+        public async Task SendEmailDemo(Email model)
+        {
+            // sends the email                      
+            await emailService.Execute(model.InfringingHost, model.InfringingUrl, model.InfringingEmail);
+        }
     }
 }

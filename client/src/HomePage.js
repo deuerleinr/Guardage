@@ -3,7 +3,7 @@ import { listing_GetAll_async } from "./server";
 import MenuBar from "./MenuBar";
 import SearchBar from "./SearchBar";
 import { withRouter } from "react-router-dom";
-import "./HomePage.css";
+import styles from "./HomePage.module.css";
 
 class HomePage extends React.Component {
   state = {
@@ -12,8 +12,14 @@ class HomePage extends React.Component {
 
   async componentDidMount() {
     const listings = await listing_GetAll_async();
-    this.setState({ listings });
+    this.setState({ listings }, () => {
+      console.log(this.state.listings);
+    });
   }
+
+  onNextListing = id => {
+    alert("onNextListing" + id);
+  };
 
   handleListingClick = id => {
     this.props.history.push("./listingedit/" + id);
@@ -31,15 +37,20 @@ class HomePage extends React.Component {
         <div>
           <SearchBar />
         </div>
-        <div className="result-container">
+
+        <div className={styles.resultContainer}>
           {listings.map(listing => (
             <div
               key={listing.id}
-              className="result-card"
+              className={styles.resultCard}
               onClick={() => this.handleListingClick(listing.id)}
             >
-              <img className="result-image" src={listing.imageUrl} alt="" />
-              <div className="result-host">
+              <img
+                className={styles.resultImage}
+                src={listing.imageUrl}
+                alt=""
+              />
+              <div className={styles.resultHost}>
                 {listing.listingUrl.split("/")[2]}{" "}
               </div>
             </div>

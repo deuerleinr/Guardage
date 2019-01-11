@@ -1,38 +1,147 @@
 import React from "react";
 import MenuBar from "./MenuBar";
 import styles from "./ListingEdit.module.css";
+import { listing_GetbyId_async, listing_Update_async } from "./server";
+import { Button, Modal } from "reactstrap";
+import EmailSender from "./EmailSender";
+import { NotificationManager } from "react-notifications";
+import "react-notifications/lib/notifications.css";
 
 class ListingEdit extends React.Component {
   state = {
-    id: 4,
-    listingUrl:
-      "https://www.fronr.com/descendants-milo-goes-to-college-508ab08c75274-women-s-t-shirt-sky-womens-cotton-9339377-comfy",
-    imageUrl: "https://www.fronr.com/bmz_cache/1/GR47IN.image.700x700.jpg",
-    title:
-      "  Descendants Milo Goes To College 508ab08c75274 Women's T-Shirt Sky Womens",
-    sellerID: 3,
-    price: 11.99,
-    dateCreated: "2018-12-27",
-    dateModified: "2018-12-27",
-    Status: "pending"
+    id: "",
+    listingUrl: "",
+    imageUrl: "",
+    title: " ",
+    sellerID: 0,
+    price: 0,
+    dateCreated: "",
+    dateModified: "",
+    Status: "",
+    modal: false,
+    dateToday: "",
+    history: "",
+    liveDead: ""
   };
 
-  componentDidMount = () => {
-    console.log("at componentDidMount");
-    console.log(this.props.match.params.id);
-  };
+  async componentDidMount() {
+    const id = this.props.match.params.id;
+    const l = await listing_GetbyId_async(id);
+    this.setState({
+      id: l.id,
+      listingUrl: l.listingUrl,
+      imageUrl: l.imageUrl,
+      title: l.title,
+      sellerId: l.sellerId,
+      dateCreated: l.dateCreated,
+      dateModified: l.dateModified,
+      price: l.price,
+      status: l.status,
+      history: l.history,
+      liveDead: l.liveDead
+    });
+  }
 
   onClose = () => {
     this.props.history.push("../homepage");
   };
 
+  onChangeStatus = newStatus => {
+    const dateToday = this.getDate();
+    this.setState({ dateToday }, () => {
+      const newHistory = newStatus + " " + dateToday + " ";
+      this.onUpdateStatus(newStatus, newHistory);
+    });
+  };
+
+  async onUpdateStatus(newStatus, newHistory) {
+    const {
+      id,
+      listingUrl,
+      imageUrl,
+      title,
+      sellerId,
+      price,
+      liveDead
+    } = this.state;
+    const status = newStatus;
+    let history = this.state.history;
+    if (history) {
+      history = history + ", " + newHistory;
+    } else {
+      history = newHistory;
+    }
+
+    const req = {
+      id,
+      listingUrl,
+      imageUrl,
+      title,
+      sellerId,
+      price,
+      status,
+      history,
+      liveDead
+    };
+    const response = await listing_Update_async(id, req);
+    if (response.status >= 200 && response.status <= 299) {
+      NotificationManager.success("Status Updated");
+      this.setState({ status, history });
+    } else {
+      alert("Update Error");
+    }
+  }
+
+  onSubmitTakeDown = () => {
+    this.onToggleDMCAModal();
+  };
+
+  onCloseModalAfterSendingEmail = () => {
+    const modal = this.state.modal;
+    this.setState({ modal: !modal }, () => {
+      this.onChangeStatus("DMCA");
+    });
+  };
+
+  getDate = () => {
+    let today = new Date();
+    let dd = today.getDate();
+    let mm = today.getMonth() + 1;
+    let yy = today
+      .getFullYear()
+      .toString()
+      .substr(-2);
+    if (dd < 10) {
+      dd = "0" + dd;
+    }
+    if (mm < 10) {
+      mm = "0" + mm;
+    }
+    const dateToday = mm + "/" + dd + "/" + yy;
+    return dateToday;
+  };
+
+  onToggleDMCAModal = () => {
+    const modal = this.state.modal;
+    this.setState({ modal: !modal });
+  };
+
   render() {
-    const { listingUrl, imageUrl, title, price } = this.state;
+    const {
+      listingUrl,
+      imageUrl,
+      title,
+      price,
+      status,
+      liveDead,
+      history
+    } = this.state;
     // const listingId = this.props.match.params.id;
 
     return (
       <>
         <MenuBar />
+
         <div className={styles.root}>
           <div className={styles.upperHost}>{listingUrl.split("/")[2]}</div>
           <div className={styles.upperActions + " " + styles.parent}>
@@ -68,7 +177,7 @@ class ListingEdit extends React.Component {
                 className={styles.btnClose}
                 onClick={() => this.onClose()}
               >
-                <i className="fa fa-times " />
+                <i className="fa fa-times" style={{ color: "gray" }} />
               </button>
             </div>
           </div>
@@ -93,30 +202,64 @@ class ListingEdit extends React.Component {
                 </a>
               </dd>
               <dt>Title:</dt> <dd> {title}</dd>
-              <dt>Price:</dt> <dd> {price}</dd>
-              <dt>URL Priors:</dt> <dd>None</dd>
-              <dt>Status:</dt>
+              <dt>Price:</dt> <dd> {price}</dd> <dt>History:</dt>
+              <dd>{history}</dd>
+              <dt>URL Status:</dt>
+              {/dmca/i.test(status) ? (
+                <>
+                  <dd style={{ color: "red" }}>{status}</dd>
+                </>
+              ) : (
+                <>
+                  <dd>{status}</dd>
+                </>
+              )}
+              <dt style={{ fontSize: ".9em", marginTop: "3px" }}>
+                Live/Dead URL?
+              </dt>
               <dd>
-                <i className="fa fa-circle  " /> Online
+                {/* <div className={styles.upperActions + " " + styles.parent}> */}
+                <i
+                  className="fa fa-circle"
+                  style={{
+                    color: "rgb(54, 234, 123",
+                    marginRight: "10px",
+                    marginBottom: "2px",
+                    fontSize: ".75em"
+                  }}
+                />
+                {liveDead}
               </dd>
             </dl>
             <div className={styles.btnGroup}>
-              <button>
+              <button
+                className={styles.btnThree}
+                onClick={() => this.onChangeStatus("Approved-Use")}
+              >
                 <i className="fa fa-check" />
                 <br />
                 Approved Use
               </button>
-              <button>
+              <button
+                className={styles.btnThree}
+                onClick={() => this.onChangeStatus("Non-Property")}
+              >
                 <i className="fa fa-times" />
                 <br />
                 Not my property
               </button>
-              <button>
+              <button
+                className={styles.btnThree}
+                onClick={() => this.onChangeStatus("Ignore")}
+              >
                 <i className="fa fa-minus" />
                 <br />
                 Ignore
               </button>
-              <button className={styles.btnTakedown}>
+              <button
+                className={styles.btnTakedown}
+                onClick={this.onSubmitTakeDown}
+              >
                 SUBMIT
                 <br />
                 TAKE DOWN
@@ -128,6 +271,35 @@ class ListingEdit extends React.Component {
           </div>
           <div className={styles.lowerActions} />
         </div>
+        <Modal
+          isOpen={this.state.modal}
+          toggle={this.onToggleDMCAModal}
+          className={styles.modal}
+        >
+          <div className={styles.modalRoot}>
+            <div className={styles.modalTitle}>
+              <h2>Send Take-down email</h2>
+            </div>
+            <div className={styles.modalClose}>
+              <Button
+                className={styles.modalBtnClose}
+                onClick={this.onToggleDMCAModal}
+              >
+                <i className="fa fa-times" />
+              </Button>
+            </div>
+            <div className={styles.modalEmailSender}>
+              <EmailSender
+                infringingHost={listingUrl.split("/")[2]}
+                infringingUrl={listingUrl}
+                infringingEmail="myjacobwright@gmail.com"
+                onCloseModalAfterSendingEmail={
+                  this.onCloseModalAfterSendingEmail
+                }
+              />
+            </div>
+          </div>
+        </Modal>
       </>
     );
   }
