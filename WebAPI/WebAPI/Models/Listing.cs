@@ -18,6 +18,9 @@ namespace WebAPI.Models
         public string Status { get; set; }
         public string History { get; set; }
         public string LiveDead { get; set; }
+        public string Host { get; set; }
+        public string DmcaEmail { get; set; }
+        public int ListId { get; set; }
     }
 
 }

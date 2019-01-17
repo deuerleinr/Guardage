@@ -39,17 +39,18 @@ namespace WebAPI.Services
                             DateModified = (DateTime)reader["DateModified"],
                             Status = (string)reader["status"],
                             History = reader["history"] as string,
-                            LiveDead = reader["liveDead"] as string
+                            LiveDead = reader["liveDead"] as string,
+                            Host = reader ["host"] as string,
+                            DmcaEmail = reader ["dmcaEmail"] as string,
+                            ListId = (int)reader["listId"]
                         };
                         listings.Add(listing);
                     }
                     return listings;
                 }
-
             }  // calls con.Dispose()  (because SqlConnection implements IDisposable)
         }
-
-         
+                
 
 
         public int Create(ListingCreate request)
@@ -91,7 +92,7 @@ namespace WebAPI.Services
                     if (!reader.Read())
                     {
                         return null;
-                    }                    
+                    }
                     listing.Id = (int)reader["id"];
                     listing.ListingUrl = reader["listingUrl"] as string;
                     listing.ImageUrl = reader["imageUrl"] as string;
@@ -103,37 +104,48 @@ namespace WebAPI.Services
                     listing.Status = (string)reader["status"] as string;
                     listing.History = (string)reader["history"] as string;
                     listing.LiveDead = (string)reader["liveDead"] as string;
+                    listing.Host = (string)reader["host"] as string;
+                    listing.DmcaEmail = (string)reader["dmcaEmail"] as string;
+                    listing.ListId = (int)reader["listId"];
                 }
                 return listing;
             }
         }
 
-        public PagedResponse<SearchListingResponse> Search(string searchString, int pageIndex, int pageSize, string status, string liveDead, int listId)
+        public PagedResponse<Listing> Search(string searchString, int pageIndex, int pageSize, string nonList, string whiteList, string blackList, string prevNone, string prevTakeDown, string prevNotMyProperty, string prevApproved, string prevIgnore)
         {
             using (var con = GetConnection())
             {
                 var cmd = con.CreateCommand();
 
+                if (searchString == null)
+                {
+                    searchString = "";
+                }
                 cmd.CommandText = "Listing_Search";
-                cmd.CommandType = CommandType.StoredProcedure;
-
+                cmd.CommandType = CommandType.StoredProcedure;                 
                 cmd.Parameters.AddWithValue("@searchString", searchString);
                 cmd.Parameters.AddWithValue("@pageIndex", pageIndex);
                 cmd.Parameters.AddWithValue("@pageSize", pageSize);
-                cmd.Parameters.AddWithValue("@status", status);
-                cmd.Parameters.AddWithValue("@liveDead", liveDead);
-                cmd.Parameters.AddWithValue("@listId", listId);
-
+                cmd.Parameters.AddWithValue("@nonList", nonList);
+                cmd.Parameters.AddWithValue("@whiteList", whiteList);
+                cmd.Parameters.AddWithValue("@blackList", blackList);
+                cmd.Parameters.AddWithValue("@prevNone", prevNone);
+                cmd.Parameters.AddWithValue("@prevTakeDown", prevTakeDown);
+                cmd.Parameters.AddWithValue("@prevApproved", prevApproved);
+                cmd.Parameters.AddWithValue("@prevNotMyProperty", prevNotMyProperty);
+                cmd.Parameters.AddWithValue("@prevIgnore", prevIgnore); 
+          
                 using (var reader = cmd.ExecuteReader())
                 {
-                    PagedResponse<SearchListingResponse> pagedResponse = new PagedResponse<SearchListingResponse>();
-                    List<SearchListingResponse> searchListingResponses = null;
-                    // var listings = new List<Listing>();
-
+                    PagedResponse<Listing> pagedResponse = new PagedResponse<Listing>();
+                    //List<Listing> listings = null;
+                     var listings = new List<Listing>();
+                    int totalRows = 0;
                     while (reader.Read())
                     {
                         //this loop will happen once for every row
-                        var searchListingResponse = new SearchListingResponse
+                        var listing = new Listing
                         {
                             Id = (int)reader["id"],
                             ListingUrl = (string)reader["listingUrl"],
@@ -146,13 +158,17 @@ namespace WebAPI.Services
                             Status = (string)reader["status"],
                             History = reader["history"] as string,
                             LiveDead = reader["liveDead"] as string,
-                            Host = reader["liveDead"] as string,
+                            Host = reader["host"] as string,
                             DmcaEmail = reader["dmcaEmail"] as string,
-                            ListId = (int)reader["listId"]
+                            ListId = (int)reader["listId"],
+                            
                         };
-                        searchListingResponses.Add(searchListingResponse);
+                        listings.Add(listing);
+                        totalRows = (int)reader["TotalRows"];
+                        
                     }
-                    pagedResponse.PagedItems = searchListingResponses;
+                    pagedResponse.PagedItems = listings;
+                    pagedResponse.TotalCount = totalRows;
                     return pagedResponse;
                 }
             }  

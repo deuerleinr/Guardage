@@ -21,7 +21,10 @@ class ListingEdit extends React.Component {
     modal: false,
     dateToday: "",
     history: "",
-    liveDead: ""
+    liveDead: "",
+    host: "",
+    dmcaEmail: "",
+    listId: 0
   };
 
   async componentDidMount() {
@@ -38,7 +41,10 @@ class ListingEdit extends React.Component {
       price: l.price,
       status: l.status,
       history: l.history,
-      liveDead: l.liveDead
+      liveDead: l.liveDead,
+      host: l.host,
+      dmcaEmail: l.dmcaEmail,
+      listId: l.listId
     });
   }
 
@@ -62,7 +68,10 @@ class ListingEdit extends React.Component {
       title,
       sellerId,
       price,
-      liveDead
+      liveDead,
+      host,
+      dmcaEmail,
+      listId
     } = this.state;
     const status = newStatus;
     let history = this.state.history;
@@ -81,7 +90,10 @@ class ListingEdit extends React.Component {
       price,
       status,
       history,
-      liveDead
+      liveDead,
+      host,
+      dmcaEmail,
+      listId
     };
     const response = await listing_Update_async(id, req);
     if (response.status >= 200 && response.status <= 299) {
@@ -134,7 +146,8 @@ class ListingEdit extends React.Component {
       price,
       status,
       liveDead,
-      history
+      history,
+      host
     } = this.state;
     // const listingId = this.props.match.params.id;
 
@@ -143,7 +156,7 @@ class ListingEdit extends React.Component {
         <MenuBar />
 
         <div className={styles.root}>
-          <div className={styles.upperHost}>{listingUrl.split("/")[2]}</div>
+          <div className={styles.upperHost}>{host}</div>
           <div className={styles.upperActions + " " + styles.parent}>
             <div className={styles.column}>
               <table>
@@ -292,7 +305,7 @@ class ListingEdit extends React.Component {
               <EmailSender
                 infringingHost={listingUrl.split("/")[2]}
                 infringingUrl={listingUrl}
-                infringingEmail="myjacobwright@gmail.com"
+                infringingEmail="rodger.deuerlein@gmail.com"
                 onCloseModalAfterSendingEmail={
                   this.onCloseModalAfterSendingEmail
                 }

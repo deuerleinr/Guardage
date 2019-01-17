@@ -24,17 +24,32 @@ namespace WebAPI.Controllers
             this.emailService = emailService;
         }
 
-        [HttpGet, Route]
-        public List<Listing> GetAll()
-        {
-            return listingService.GetAll();
-        }
-         
+          [HttpGet, Route]
+           public List<Listing> GetAll()
+          {
+             return listingService.GetAll();
+            }
+
         
 
 
+        // [HttpGet, Route("search/{pageIndex:int}/{pageSize:int}")]  
+        // public PagedResponse<Listing> Search(int pageIndex, int pageSize, string q)
 
-        [HttpGet, Route("{id:int}")]
+        [HttpGet, Route("search/")]
+        public PagedResponse<Listing> Search (string q, int pageIndex, int pageSize, string nonList, string whiteList, string blackList, string prevNone, string prevTakeDown, string prevNotMyProperty, string prevApproved, string prevIgnore )             
+        {
+            return listingService.Search(q, pageIndex, pageSize, nonList, whiteList, blackList, prevNone, prevTakeDown, prevNotMyProperty, prevApproved, prevIgnore);
+        }
+
+
+
+
+
+
+
+
+    [HttpGet, Route("{id:int}")]
         public Listing GetById(int id)         
         {
             return listingService.GetById(id);

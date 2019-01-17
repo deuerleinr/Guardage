@@ -1,13 +1,46 @@
 import axios from "axios";
 
-// export function listing_GetAll() {
-//   return axios.get("/api/listings").then(response => resp.data);
-// }
+export async function listing_Search_async(req) {
+  console.log(req);
+  let url =
+    "/api/listings/search/?q=" +
+    req.searchString +
+    "&pageIndex=" +
+    req.pageIndex +
+    "&pageSize=" +
+    req.pageSize +
+    "&nonList=" +
+    req.nonList +
+    "&whiteList=" +
+    req.whiteList +
+    "&blackList=" +
+    req.blackList +
+    "&prevNone=" +
+    req.prevNone +
+    "&prevTakeDown=" +
+    req.prevTakeDown +
+    "&prevApproved=" +
+    req.prevApproved +
+    "&prevNotMyProperty=" +
+    req.prevNotMyProperty +
+    "&prevIgnore=" +
+    req.prevIgnore;
 
-export async function listing_GetAll_async() {
-  const resp = await axios.get("/api/listings");
+  const resp = await axios.get(url);
   return resp.data;
 }
+
+// export function searchQuestions(req) {
+//   let url =
+//     "/api/surveyquestion/?searchstring=" +
+//     req.searchString +
+//     "&pageIndex=" +
+//     req.pageIndex +
+//     "&pageSize=" +
+//     req.pageSize;
+
+//   return axios.get(url, req);
+// }
 
 export async function listing_GetbyId_async(id) {
   const resp = await axios.get("/api/listings/" + id);

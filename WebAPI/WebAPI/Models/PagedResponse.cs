@@ -8,7 +8,7 @@ namespace WebAPI.Models
     public class PagedResponse<TItem>
     {
         public int TotalCount { get; set; }
-        public List<TItem> PagedItems { get; set; }
+        public List<Listing> PagedItems { get; set; }
     }
 
 }
