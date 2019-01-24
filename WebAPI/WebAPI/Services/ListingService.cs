@@ -112,7 +112,7 @@ namespace WebAPI.Services
             }
         }
 
-        public PagedResponse<Listing> Search(string searchString, int pageIndex, int pageSize, string nonList, string whiteList, string blackList, string prevNone, string prevTakeDown, string prevNotMyProperty, string prevApproved, string prevIgnore)
+        public PagedResponse<Listing> Search(string searchString, int pageIndex, int pageSize, string nonList, string whiteList, string blackList, string prevNone, string prevTakeDown, string prevNotMyProperty, string prevApproved, string prevIgnore, string liveUrl, string deadUrl)
         {
             using (var con = GetConnection())
             {
@@ -134,7 +134,9 @@ namespace WebAPI.Services
                 cmd.Parameters.AddWithValue("@prevTakeDown", prevTakeDown);
                 cmd.Parameters.AddWithValue("@prevApproved", prevApproved);
                 cmd.Parameters.AddWithValue("@prevNotMyProperty", prevNotMyProperty);
-                cmd.Parameters.AddWithValue("@prevIgnore", prevIgnore); 
+                cmd.Parameters.AddWithValue("@prevIgnore", prevIgnore);
+                cmd.Parameters.AddWithValue("@liveUrl", liveUrl);
+                cmd.Parameters.AddWithValue("@deadUrl", deadUrl);
           
                 using (var reader = cmd.ExecuteReader())
                 {

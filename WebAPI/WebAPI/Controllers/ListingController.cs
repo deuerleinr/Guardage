@@ -37,9 +37,9 @@ namespace WebAPI.Controllers
         // public PagedResponse<Listing> Search(int pageIndex, int pageSize, string q)
 
         [HttpGet, Route("search/")]
-        public PagedResponse<Listing> Search (string q, int pageIndex, int pageSize, string nonList, string whiteList, string blackList, string prevNone, string prevTakeDown, string prevNotMyProperty, string prevApproved, string prevIgnore )             
+        public PagedResponse<Listing> Search (string q, int pageIndex, int pageSize, string nonList, string whiteList, string blackList, string prevNone, string prevTakeDown, string prevNotMyProperty, string prevApproved, string prevIgnore, string liveUrl, string deadUrl )             
         {
-            return listingService.Search(q, pageIndex, pageSize, nonList, whiteList, blackList, prevNone, prevTakeDown, prevNotMyProperty, prevApproved, prevIgnore);
+            return listingService.Search(q, pageIndex, pageSize, nonList, whiteList, blackList, prevNone, prevTakeDown, prevNotMyProperty, prevApproved, prevIgnore, liveUrl, deadUrl);
         }
 
 

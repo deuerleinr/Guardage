@@ -21,7 +21,9 @@ class HomePage extends React.Component {
     prevTakeDown: true,
     prevApproved: false,
     prevNotMyProperty: false,
-    prevIgnore: false
+    prevIgnore: false,
+    liveUrl: true,
+    deadUrl: false
   };
 
   async componentDidMount() {
@@ -36,7 +38,9 @@ class HomePage extends React.Component {
       prevTakeDown: this.state.prevTakeDown,
       prevApproved: this.state.prevApproved,
       prevNotMyProperty: this.state.prevNotMyProperty,
-      prevIgnore: this.state.prevIgnore
+      prevIgnore: this.state.prevIgnore,
+      liveUrl: this.state.liveUrl,
+      deadUrl: this.state.deadUrl
     };
     const response = await listing_Search_async(req);
     const totalCount = response.totalCount;
@@ -70,7 +74,9 @@ class HomePage extends React.Component {
         prevTakeDown: req.prevTakeDown,
         prevApproved: req.prevApproved,
         prevNotMyProperty: req.prevNotMyProperty,
-        prevIgnore: req.prevIgnore
+        prevIgnore: req.prevIgnore,
+        liveUrl: req.liveUrl,
+        deadUrl: req.deadUrl
       });
     });
   };
@@ -88,7 +94,9 @@ class HomePage extends React.Component {
       prevTakeDown: this.state.prevTakeDown,
       prevApproved: this.state.prevApproved,
       prevNotMyProperty: this.state.prevNotMyProperty,
-      prevIgnore: this.state.prevIgnore
+      prevIgnore: this.state.prevIgnore,
+      liveUrl: this.state.liveUrl,
+      deadUrl: this.state.deadUrl
     };
     listing_Search_async(req).then(response => {
       const totalCount = response.totalCount;
@@ -118,7 +126,6 @@ class HomePage extends React.Component {
 
     return (
       <>
-        {/* <h1> This is the home page </h1>; */}
         <div className="menubar">
           <MenuBar />
         </div>
@@ -139,7 +146,11 @@ class HomePage extends React.Component {
           {listings.map(listing => (
             <div
               key={listing.id}
-              className={styles.resultCard}
+              className={
+                listing.liveDead === "dead"
+                  ? styles.resultCard + " " + styles.dead
+                  : styles.resultCard
+              }
               onClick={() => this.handleListingClick(listing.id)}
             >
               <img
@@ -148,10 +159,9 @@ class HomePage extends React.Component {
                 alt=""
               />
               <div className={styles.resultHost}>
-                {/* {listing.listingUrl.split("/")[2]}{" "} */}
-                {listing.host}
-                <br /> {listing.listId === 2 && "Blacklist"}
-                {listing.listId === 1 && "Whitelist"}
+                <div> {listing.host} </div>
+                <div> {listing.listId === 2 && "Blacklist"} </div>
+                <div> {listing.listId === 1 && "Whitelist"} </div>
               </div>
             </div>
           ))}

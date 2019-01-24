@@ -27,7 +27,11 @@ class ListingEdit extends React.Component {
     listId: 0
   };
 
-  async componentDidMount() {
+  componentDidMount = () => {
+    this.loadPage();
+  };
+
+  async loadPage() {
     const id = this.props.match.params.id;
     const l = await listing_GetbyId_async(id);
     this.setState({
@@ -47,6 +51,12 @@ class ListingEdit extends React.Component {
       listId: l.listId
     });
   }
+
+  componentDidUpdate = () => {
+    if (this.props.match.params.id !== this.state.id.toString()) {
+      this.loadPage();
+    }
+  };
 
   onClose = () => {
     this.props.history.push("../homepage");
@@ -138,6 +148,23 @@ class ListingEdit extends React.Component {
     this.setState({ modal: !modal });
   };
 
+  handleWhiteList = () => {
+    alert("add to white List");
+  };
+
+  handleBlackList = () => {
+    alert("add to blacklist");
+  };
+
+  handleBtnRight = () => {
+    this.props.history.push("../listingedit/1");
+    //this.props.history.push("../homepage");
+  };
+
+  handleBtnLeft = () => {
+    alert("left button");
+  };
+
   render() {
     const {
       listingUrl,
@@ -147,7 +174,8 @@ class ListingEdit extends React.Component {
       status,
       liveDead,
       history,
-      host
+      host,
+      listId
     } = this.state;
     // const listingId = this.props.match.params.id;
 
@@ -156,7 +184,15 @@ class ListingEdit extends React.Component {
         <MenuBar />
 
         <div className={styles.root}>
-          <div className={styles.upperHost}>{host}</div>
+          <div className={styles.upperHost}>
+            <div> {host}</div>
+            {listId === 2 && (
+              <div className={styles.listTypeBlack}>(Blacklist)</div>
+            )}
+            {listId === 1 && (
+              <div className={styles.listTypeWhite}>(White List)</div>
+            )}
+          </div>
           <div className={styles.upperActions + " " + styles.parent}>
             <div className={styles.column}>
               <table>
@@ -177,11 +213,17 @@ class ListingEdit extends React.Component {
               </table>
             </div>
             <div className={styles.column}>
-              <button className={styles.btnWhiteList}>
+              <button
+                className={styles.btnWhiteList}
+                onClick={this.handleWhiteList}
+              >
                 Add Site to White List
               </button>
               <br />
-              <button className={styles.btnBlackList}>
+              <button
+                className={styles.btnBlackList}
+                onClick={this.handleBlackList}
+              >
                 Add Site to Black List
               </button>
             </div>
@@ -190,13 +232,20 @@ class ListingEdit extends React.Component {
                 className={styles.btnClose}
                 onClick={() => this.onClose()}
               >
-                <i className="fa fa-times" style={{ color: "gray" }} />
+                <i className="fa fa-times" />
               </button>
             </div>
           </div>
+
           <div className={styles.leftArrow}>
-            <i className="fas fa-chevron-left" />
+            <button
+              className={styles.btnLeftArrow}
+              onClick={this.handleBtnLeft}
+            >
+              <i className="fas fa-chevron-left" />{" "}
+            </button>
           </div>
+
           <div className={styles.middleImage}>
             <img src={imageUrl} alt="" />
           </div>
@@ -235,7 +284,7 @@ class ListingEdit extends React.Component {
                 <i
                   className="fa fa-circle"
                   style={{
-                    color: "rgb(54, 234, 123",
+                    color: liveDead === "live" ? "rgb(54, 234, 123)" : "red",
                     marginRight: "10px",
                     marginBottom: "2px",
                     fontSize: ".75em"
@@ -280,7 +329,12 @@ class ListingEdit extends React.Component {
             </div>
           </div>
           <div className={styles.rightArrow}>
-            <i className="fas fa-chevron-right" />
+            <button
+              className={styles.btnRightArrow}
+              onClick={this.handleBtnRight}
+            >
+              <i className="fas fa-chevron-right" />
+            </button>
           </div>
           <div className={styles.lowerActions} />
         </div>

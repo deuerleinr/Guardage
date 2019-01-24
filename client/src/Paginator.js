@@ -39,8 +39,7 @@ class Paginator extends React.Component {
             style={{ display: "flex", justifyContent: "center" }}
           >
             <div className={styles.counts}>
-              Total Count: {this.props.totalCount}. Page count:
-              {this.props.totalPages}
+              Records found: {this.props.totalCount}
             </div>
 
             <Pagination aria-label="Page navigation example">

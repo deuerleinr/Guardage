@@ -34,7 +34,9 @@ class SearchBar extends React.Component {
       prevTakeDown: this.state.prevTakeDown,
       prevApproved: this.state.prevApproved,
       prevNotMyProperty: this.state.prevNotMyProperty,
-      prevIgnore: this.state.prevIgnore
+      prevIgnore: this.state.prevIgnore,
+      liveUrl: this.state.liveUrl,
+      deadUrl: this.state.deadUrl
     };
     this.props.handleSearchClick(req);
   };

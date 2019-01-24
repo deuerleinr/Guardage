@@ -24,7 +24,11 @@ export async function listing_Search_async(req) {
     "&prevNotMyProperty=" +
     req.prevNotMyProperty +
     "&prevIgnore=" +
-    req.prevIgnore;
+    req.prevIgnore +
+    "&liveUrl=" +
+    req.liveUrl +
+    "&deadUrl=" +
+    req.deadUrl;
 
   const resp = await axios.get(url);
   return resp.data;
