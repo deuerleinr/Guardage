@@ -19,7 +19,7 @@ class SearchBar extends React.Component {
   onChange = e => {
     const value =
       e.target.type === "checkbox" ? e.target.checked : e.target.value;
-    this.setState({ [e.target.name]: value }, () => {});
+    this.setState({ [e.target.name]: value });
   };
 
   handleSearchBtn = () => {

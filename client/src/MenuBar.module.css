@@ -7,7 +7,7 @@
 }
 
 .rootMenu{     
-     display:grid;
+    display:grid;
     grid-template-columns: .2fr auto auto; 
     grid-template-rows: 60px;
     grid-template-areas:
@@ -39,7 +39,7 @@
 
 .menuButtonRow {
     grid-area: menu-button-row; 
-    padding: 16px 0 0 30px;     
+    /* padding: 16px 0 0 30px;      */
     background-color:#333333;
 }
 
@@ -100,4 +100,107 @@ li i {
     background-image:url("https://s23527.pcdn.co/wp-content/uploads/2014/03/adam-elmakias-08.jpg.optimal.jpg");  
 }
 
+  .navbar{
+      overflow: hidden;
+      background-color: #333333;
+      
+      
+  }
+  
+  /* Links inside the navbar */
+  .navbar a {
+    float: left;
+    font-size: 16px;
+    color:white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    height: 60px;
+  }
+  
+  .navbar .btnLink{
+      float: left;
+      background-color:transparent;
+      border: none;
+      outline: none;
+      color: white;
+      font-size:16px;
+      padding: 14px 16px;
+      height: 60px;
+  }
+
+  /* The dropdown container */
+  .dropdown {
+    float: left;
+    overflow: hidden;
+  }
+  
+  /* Dropdown button */
+  .dropdown .dropbtn {
+    font-size: 16px; 
+    border: none;
+    outline: none;
+    color: white;
+    padding: 4px 16px 8px 16px;
+    background-color: inherit;
+    height:60px;
+    font-family: inherit; /* Important for vertical align on mobile phones */
+    margin: 0; /* Important for vertical align on mobile phones */
+  }
+  
+  
+  .navbar a:hover, .dropdown:hover .dropbtn {
+    background-color: red;
+  }
+
+  .btnLink:hover {
+      background-color: red;
+      cursor: pointer;
+  }
+  
+  /* Dropdown content (hidden by default) */
+  .dropdownContent {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+  }
+  
+  
+  .dropdownContent a {
+    float: none;
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+    height: 30px;
+  }
+
+  .dropdownItem {
+      float:none;
+      color: black;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+      text-align: left;
+      height: 30px;
+  }
+  
  
+  .dropdownContent a:hover {
+    background-color: #ddd;
+  }
+
+  .dropdownItem:hover{
+      background-color:#ddd;
+      cursor: pointer;
+
+  }
+  
+  /* Show the dropdown menu on hover */
+  .dropdown:hover .dropdownContent {
+    display: block;
+  }

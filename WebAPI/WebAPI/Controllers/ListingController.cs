@@ -49,7 +49,7 @@ namespace WebAPI.Controllers
 
 
 
-    [HttpGet, Route("{id:int}")]
+        [HttpGet, Route("{id:int}")]
         public Listing GetById(int id)         
         {
             return listingService.GetById(id);

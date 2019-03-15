@@ -51,6 +51,7 @@ class ListingCreate extends React.Component {
   async onSubmitListing() {
     const req = this.state.reqListing;
     const response = await listing_Create_async(req);
+    console.log(response);
     if (response.status >= 200 && response.status <= 299) {
       NotificationManager.success("New Listing Created");
     } else {

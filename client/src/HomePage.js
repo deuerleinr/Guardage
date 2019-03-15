@@ -129,6 +129,7 @@ class HomePage extends React.Component {
         <div className="menubar">
           <MenuBar />
         </div>
+
         <div>
           <SearchBar handleSearchClick={this.handleSearchClick} />
         </div>

@@ -29,7 +29,9 @@ namespace WebAPI.Services
             var apiKey = ConfigurationManager.AppSettings["SENDGRID_API_KEY"];
             var client = new SendGridClient(apiKey);
             var from = new EmailAddress("Rodger.Deuerlein@gmail.com", "Rodger Deuerlein");
-            var to = new EmailAddress(infringingEmail);
+            // var to = new EmailAddress(infringingEmail);
+            // hardcoding recipient email addresss to r deuerlein during app construction
+            var to = new EmailAddress("rodger.deuerlein@gmail.com", "Rodger Deuerlein");
             var cc = new EmailAddress("Rodger.Deuerlein@gmail.com", "Rodger Deuerlein");
             var domainUrl = ConfigurationManager.AppSettings["SiteUrlOrigin"];
             var subject = "DMCA Infringement Notice";

@@ -4,7 +4,8 @@ import { withRouter } from "react-router-dom";
 
 class MenuBar extends React.Component {
   state = {
-    stuff: ""
+    stuff: "",
+    dropdownOpen: false
   };
 
   onClickData = () => {
@@ -19,6 +20,12 @@ class MenuBar extends React.Component {
     this.props.history.push("/");
   };
 
+  // toggle = () => {
+  //   this.setState(prevState => ({
+  //     dropdownOpen: !prevState.dropdownOpen
+  //   }));
+  // };
+
   render() {
     return (
       <div className={[styles.rootMenu, styles.menuBar].join(" ")}>
@@ -27,20 +34,27 @@ class MenuBar extends React.Component {
             GUARDAGE
           </button>
         </div>
+        <div className={styles.navbar}>
+          <div className={styles.menuButtonRow}>
+            <button className={styles.btnLink}>Search</button>
+            <button className={styles.btnLink}>Resources</button>
+            <div className={styles.dropdown}>
+              <button className={styles.dropbtn}>
+                Data <i className="fa fa-caret-down" />
+              </button>
+              <div className={styles.dropdownContent}>
+                <div className={styles.dropdownItem} onClick={this.onClickData}>
+                  Create Listing
+                </div>
+                <div className={styles.dropdownItem} onClick={this.onClickData}>
+                  Create Seller
+                </div>
+                <div className={styles.dropdownItem}>Seller List</div>
+              </div>
+            </div>
+          </div>
+        </div>
 
-        <ul className={styles.menuButtonRow}>
-          <li>
-            <button className={styles.btn}>Search</button>
-          </li>
-          <li>
-            <button className={styles.btn}>Lists</button>
-          </li>
-          <li>
-            <button className={styles.btn} onClick={this.onClickData}>
-              Data
-            </button>
-          </li>
-        </ul>
         <ul className={styles.menuLoginItems}>
           <li className={styles.right}>
             <button className={styles.btn} onClick={this.logout}>
