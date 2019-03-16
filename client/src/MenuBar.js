@@ -63,7 +63,7 @@ class MenuBar extends React.Component {
           </li>
           <li className={styles.registerBtn}>
             <button className={styles.btn}>
-              <span>John Smith</span>
+              <span>Miles Griffiths</span>
             </button>
           </li>
         </ul>
