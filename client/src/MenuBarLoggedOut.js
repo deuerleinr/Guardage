@@ -19,18 +19,32 @@ class MenuBarLoggedOut extends React.Component {
             </button>
           </div>
 
-          <ul className={styles.menuButtonRow}>
-            <li>
-              <button className={styles.btn}>Services</button>
-            </li>
-            <li>
-              <button className={styles.btn}>Your rights</button>
-            </li>
-            <li>
-              <button className={styles.btn}>Pricing</button>
-            </li>
-          </ul>
-
+          <div className={styles.navbar}>
+            <div className={styles.menuButtonRow}>
+              <button className={styles.btnLink}>Services</button>
+              <button className={styles.btnLink}>Your Rights</button>
+              <div className={styles.dropdown}>
+                <button className={styles.dropbtn}>
+                  Pricing <i className="fa fa-caret-down" />
+                </button>
+                <div className={styles.dropdownContent}>
+                  <div
+                    className={styles.dropdownItem}
+                    // onClick={this.onClickData}
+                  >
+                    Free Services
+                  </div>
+                  <div
+                    className={styles.dropdownItem}
+                    // onClick={this.onClickData}
+                  >
+                    Subscription Services
+                  </div>
+                  <div className={styles.dropdownItem}>Legal Services</div>
+                </div>
+              </div>
+            </div>
+          </div>
           <ul className={styles.menuLoginItems}>
             <li className={styles.right}>
               <button className={styles.btn} onClick={this.onLoggedIn}>
