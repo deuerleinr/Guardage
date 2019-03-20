@@ -4,4 +4,4 @@ bin/
 obj/
 *.user
 Secrets.config
-Web.Config
+Web.config
