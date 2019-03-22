@@ -7,6 +7,7 @@ import Login from "./Login";
 import HomePage from "./HomePage";
 import MenuBarLoggedOut from "./MenuBarLoggedOut";
 import ListingCreate from "./ListingCreate";
+import ListingList from "./ListingList";
 import EmailSender from "./EmailSender";
 import NotificationContainer from "./NotificationManager";
 
@@ -19,6 +20,7 @@ class App extends React.Component {
         <Route exact path="/homepage" component={HomePage} />
         <Route path="/listingedit/:id" component={ListingEdit} />
         <Route exact path="/listingcreate" component={ListingCreate} />
+        <Route exact path="/listinglist" component={ListingList} />
         <Route exact path="/emailsender" component={EmailSender} />
 
         <NotificationContainer />

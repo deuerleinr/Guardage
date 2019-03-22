@@ -12,6 +12,10 @@ class MenuBar extends React.Component {
     this.props.history.push("../listingcreate");
   };
 
+  onClickListingList = () => {
+    this.props.history.push("../listinglist");
+  };
+
   logout = () => {
     this.props.history.push("/");
   };
@@ -49,7 +53,22 @@ class MenuBar extends React.Component {
                 <div className={styles.dropdownItem} onClick={this.onClickData}>
                   Create Seller
                 </div>
+                <div
+                  className={styles.dropdownItem}
+                  onClick={this.onClickListingList}
+                >
+                  Listing List
+                </div>
                 <div className={styles.dropdownItem}>Seller List</div>
+              </div>
+            </div>
+            <div className={styles.dropdown}>
+              <button className={styles.dropbtn}>
+                My Properties <i className="fa fa-caret-down" />
+              </button>
+              <div className={styles.dropdownContent}>
+                <div className={styles.dropdownItem}>Create Property</div>
+                <div className={styles.dropdownItem}>Property List</div>
               </div>
             </div>
           </div>
