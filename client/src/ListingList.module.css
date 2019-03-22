@@ -1,0 +1,120 @@
+
+.headerContainer, .listingContainer {
+    width: 1100px; 
+    display:block;
+    margin: 20px auto 0 auto;   
+    /* border: solid black 1px;
+    border-radius: 5px;    */
+    text-align:left;    
+    
+ } 
+
+ .listingContainer {
+     margin-bottom: 30px;
+    /* max-height: 300px;
+    height: 300px;
+    overflow-y:scroll;      */
+ }
+ 
+.root, .rootHeader {
+    display: grid;
+    grid-template-columns: .5fr .75fr 1fr 1.5fr 1.5fr 1.5fr .75fr 1fr 1fr .5fr;
+    grid-template-rows: auto;
+    grid-template-areas:
+    "count id dateFound host title url price lastAction deadLive image";
+    height: auto;
+    width: 100%; 
+}
+
+.root {   
+    border-bottom: solid black 1px;    
+}
+
+.rootHeader {
+    font-weight: 600;
+    background-color: lightgray;
+}
+
+.root:hover {
+    cursor: pointer;
+    background-color:lightgray;
+}
+
+.count{
+    grid-area: count;
+}
+
+.id{
+  grid-area: id;
+}
+
+.dateFound {
+    grid-area:dateFound;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.host {
+    grid-area: host;
+}
+
+.title {
+    grid-area:title;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow:hidden;
+}
+
+.price {
+    grid-area: price;
+}
+
+.url {
+    grid-area:url;
+    text-overflow:ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.lastAction{
+    grid-area: lastAction;
+}
+
+.deadLive{
+    grid-area: deadLive;
+}
+
+.imageDiv {
+    grid-area: image;
+}
+
+.listingImage {
+    height: 40px;
+}
+
+
+/* .btnClose{
+    color: black;
+    background-color: transparent;
+    width:140px;
+    display:block;
+    margin: 0 auto 0 auto;       
+    font-size: 1.05em;
+} */
+
+/* .counter {
+    border: solid #6c757d 2px;
+    height: 40px;
+    width:140px;
+    padding: 6px 0 0 3px;
+    border-radius:5px;
+    color:black;
+    font-size: 1.05em;
+} */
+
+/* .countSpan {
+    display:block;
+    width: 73px;
+    margin: 0 auto 0 auto;
+} */

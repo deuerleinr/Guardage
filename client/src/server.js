@@ -34,17 +34,10 @@ export async function listing_Search_async(req) {
   return resp.data;
 }
 
-// export function searchQuestions(req) {
-//   let url =
-//     "/api/surveyquestion/?searchstring=" +
-//     req.searchString +
-//     "&pageIndex=" +
-//     req.pageIndex +
-//     "&pageSize=" +
-//     req.pageSize;
-
-//   return axios.get(url, req);
-// }
+export async function listing_GetAll_async() {
+  const resp = await axios.get("/api/listings");
+  return resp.data;
+}
 
 export async function listing_GetbyId_async(id) {
   const resp = await axios.get("/api/listings/" + id);
