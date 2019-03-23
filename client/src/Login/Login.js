@@ -1,29 +1,29 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import { NotificationManager } from "react-notifications";
 import { withRouter } from "react-router-dom";
+import MenuBar from "../MenuBar";
+import GoogleLogin from "react-google-login";
 
 function Login(props) {
-  useEffect(
-    () =>
-      (window.onSignIn = googleUser => {
-        const profile = googleUser.getBasicProfile();
-        const user = {};
-        user.id = profile.getId();
-        user.name = profile.getName();
-        user.image = profile.getImageUrl();
-        user.email = profile.getEmail();
-        user.id_token = googleUser.getAuthResponse().id_token;
-        localStorage.setItem("jwtToken", user.id_token);
-        props.setUser(user);
-        NotificationManager.success("Login successful!");
-        // props.history.push("/homepage");
-      }),
-    []
-  );
+  function loginSuccess(response) {
+    console.log(response);
+    const user = response.profileObj;
+    console.log(user);
+    console.log(response.tokenId);
+    NotificationManager.success("Login successful!");
+    props.history.push("/homepage");
+    localStorage.setItem("jwtToken", response.tokenId);
+    props.setUser(user);
+  }
+
+  function loginFailure(response) {
+    console.log(response);
+  }
 
   return (
     <>
+      <MenuBar />
       <div className="py-4">
         <div
           style={{
@@ -35,9 +35,13 @@ function Login(props) {
           }}
         >
           <h3>Please sign in</h3>
-          <form className="formInput">
-            <div className="g-signin2" data-onsuccess="onSignIn" />
-          </form>
+          <GoogleLogin
+            clientId="596113568195-prhjvoe318j6gkb4fm44r6kklt7gr58q.apps.googleusercontent.com"
+            buttonText="Login"
+            onSuccess={loginSuccess}
+            onFailure={loginFailure}
+          />
+          <div>{loginFailure}</div>
         </div>
       </div>
     </>

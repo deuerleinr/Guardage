@@ -1,0 +1,15 @@
+.btn:hover{     
+    cursor: pointer;
+    color:red;
+    font-size:1.1em;
+} 
+
+.btn{
+    width: 100px;
+    border:none;
+    color:white;
+    padding: 0 0 10px 0;
+    font:inherit;
+    background-color:transparent;
+    outline:none;    
+}

@@ -2,6 +2,8 @@ import React from "react";
 import styles from "./MenuBar.module.css";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
+import Logout from "./Login/Logout";
+import { trimName } from "./MiscFunctions";
 
 class MenuBar extends React.Component {
   state = {
@@ -17,8 +19,8 @@ class MenuBar extends React.Component {
     this.props.history.push("../listinglist");
   };
 
-  logout = () => {
-    this.props.history.push("/");
+  login = () => {
+    this.props.history.push("/login");
   };
 
   onClickGuardage = () => {
@@ -77,13 +79,19 @@ class MenuBar extends React.Component {
 
         <ul className={styles.menuLoginItems}>
           <li className={styles.right}>
-            <button className={styles.btn} onClick={this.logout}>
-              Logout <i className="fa fa-power-off " />
-            </button>
+            {this.props.user ? (
+              <Logout />
+            ) : (
+              <button className={styles.btn} onClick={this.login}>
+                Login <i className="fa fa-power-off " />
+              </button>
+            )}
           </li>
           <li className={styles.registerBtn}>
             <button className={styles.btn}>
-              {this.props.user && <span>{this.props.user.given_name}</span>}
+              {this.props.user && (
+                <span>{this.props.user && trimName(this.props.user.name)}</span>
+              )}
             </button>
           </li>
         </ul>
