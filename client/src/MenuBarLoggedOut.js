@@ -3,7 +3,7 @@ import styles from "./MenuBar.module.css";
 
 class MenuBarLoggedOut extends React.Component {
   onLoggedIn = () => {
-    this.props.history.push("./homepage");
+    this.props.history.push("/login");
   };
 
   render() {

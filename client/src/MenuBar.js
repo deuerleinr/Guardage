@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./MenuBar.module.css";
 import { withRouter } from "react-router-dom";
+import { connect } from "react-redux";
 
 class MenuBar extends React.Component {
   state = {
@@ -82,7 +83,7 @@ class MenuBar extends React.Component {
           </li>
           <li className={styles.registerBtn}>
             <button className={styles.btn}>
-              <span>Gregory Roman</span>
+              {this.props.user && <span>{this.props.user.given_name}</span>}
             </button>
           </li>
         </ul>
@@ -91,4 +92,8 @@ class MenuBar extends React.Component {
   }
 }
 
-export default withRouter(MenuBar);
+const mapStateToProps = state => ({
+  user: state.user
+});
+
+export default withRouter(connect(mapStateToProps)(MenuBar));
