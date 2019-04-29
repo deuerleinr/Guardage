@@ -8,10 +8,13 @@ import HomePage from "./HomePage";
 import MenuBarLoggedOut from "./MenuBarLoggedOut";
 import ListingCreate from "./ListingCreate";
 import ListingList from "./ListingList";
+import SellerList from "./SellerList";
 import EmailSender from "./EmailSender";
 import NotificationContainer from "./NotificationManager";
 import { connect } from "react-redux";
 import jwt_decode from "jwt-decode";
+// import SkillsTest from "./SkillsTest";
+import SellerCreate from "./SellerCreate";
 
 function App(props) {
   useEffect(checkProps, []);
@@ -36,9 +39,12 @@ function App(props) {
       <Route exact path="/login" component={Login} />
       <Route exact path="/homepage" component={HomePage} />
       <Route path="/listingedit/:id" component={ListingEdit} />
-      <Route exact path="/listingcreate" component={ListingCreate} />
+      <Route exact path="/listingcreate/:id?" component={ListingCreate} />
       <Route exact path="/listinglist" component={ListingList} />
+      <Route exact path="/sellerlist" component={SellerList} />
       <Route exact path="/emailsender" component={EmailSender} />
+      {/* <Route exact path="/skillstest" component={SkillsTest} /> */}
+      <Route exact path="/sellercreate" component={SellerCreate} />
 
       <NotificationContainer />
     </>

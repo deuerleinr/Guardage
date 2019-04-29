@@ -1,66 +1,109 @@
-.root {
-    display:grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 45px 640px;
-    grid-template-areas:
-    "topArea topArea"
-    "listingContainer sellerContainer";
-    background-color:white;
+.mainContainer {
+    display:block;     
+    width: auto;
+    max-width: 45%;
+    margin: 100px auto 40px auto;     
+    border: solid black 1px;
+    border-radius: 1%;       
 }
 
-.topArea {
-    grid-area:topArea;    
-    margin: 0 32px 0 32px;
-    padding: 0 0 0 0;
+.header {     
+    padding: 2px 2% 0 2%;
+    height: 50px;    
+    border-bottom: solid black 1px;
 }
 
-.btnClose{
-    font-size:2.5em;
-    float:right;
-    background-color:transparent;
+.footer {
+    padding: 1px 2% 0 2%;
+    height: 50px;
+    border-top: solid black 1px;
+}
+
+.btnClose {
+    height: 37px;
+    width: 100%;    
+    background-color:#007bff;
+    color:white;
+    margin: 5px 0 0 0;    
+    font-size:1.25em;
     border:none;
-    margin: 2px 0 0 0;
-    outline:none;    
-}
+    outline:none;
+    border-radius: 4px;
+} 
 
 .btnClose:hover{
     cursor: pointer;
-    color:red;
+    background-color: #0563c9;
 }
 
-.listingContainer{
-    background-color: white;
-    grid-area: listingContainer;
-    border: solid 1px black;
-    margin: 10px 32px 0 32px;
-    padding: 12px;
-    overflow-y:scroll;
-    border-radius: 1%;
-}
-
-
-.sellerContainer {
-    background-color:white;
-    grid-area: sellerContainer;
-    border: solid 1px black;
-    margin: 10px 32px 0 32px;
-    padding: 12px;
-    overflow-y:scroll;
-    border-radius: 1%;
-}
+.formContainer{   
+    padding: 12px;         
+} 
 
 .input {
-    width:  600px;
+    width:  100%;
     margin: 0 0 12px  0 ;
     height: 30px;
     font-size: 1.3em;
 }
 
-.btnSubmit {
+.inputReadOnly {
+    width:  60px;
+    margin: 0 0 12px  0 ;
+    height: 30px;
+    font-size: 1.3em;
+    background-color: lightgray;
+}
+
+.btnSubmitNewListing {
     height: 40px;
-    width: 100%;
-    max-width:   600px;
-    background-color:rgb(54, 234, 123);
+    width: 100%;    
+    background-color: #28a745 ;
     color:white;
-    margin: 15px 0 0 0;    
+    margin: 5px 0 0 0;    
+    font-size:1.25em;
+    border:none;
+    outline:none;
+    border-radius: 4px;
+}
+
+.btnSubmitUpdate {
+    height: 37px;
+    width: 74%;       
+    background-color: #28a745 ;
+    color:white;
+    margin: 5px 0 0 0;    
+    font-size:1.25em;
+    border: none;
+    outline:none;
+    border-radius: 4px;
+}
+
+.btnSubmitUpdate:hover, .btnSubmitNewListing:hover {
+    cursor: pointer;
+    background-color: #1c7431;
+}
+
+.btnDelete {
+    height: 37px;
+    width: 25%;   
+    float: right;
+    background-color:#dc3545;
+    color:white;
+    margin: 5px 0 0 0;    
+    font-size:1.25em;
+    border:none;
+    outline: none;
+    border-radius: 4px;
+}
+
+.btnDelete:hover{
+    cursor: pointer;
+    background-color:#a12834;
+
+}
+
+.btnSubmit:hover {
+    cursor: pointer;
+    background-color:#19722e;
 }

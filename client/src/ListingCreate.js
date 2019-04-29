@@ -1,55 +1,115 @@
 import React from "react";
 import { Input } from "reactstrap";
 import styles from "./ListingCreate.module.css";
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import {
+  listing_GetbyId_async,
   listing_Create_async,
-  seller_Create_async,
-  seller_GetAll_async
+  listing_Update_async,
+  seller_GetAll_async,
+  listing_Delete_async
 } from "./server";
+import MenuBar from "./MenuBar";
 import { NotificationManager } from "react-notifications";
 import "react-notifications/lib/notifications.css";
 
 class ListingCreate extends React.Component {
   state = {
-    reqListing: {
-      listingUrl: "",
-      imageUrl: "",
-      title: "",
-      sellerId: 0,
-      price: 0,
-      dateCreated: "",
-      dateModified: "",
-      status: "pending",
-      history: "",
-      liveDead: "live"
-    },
-    reqSeller: {
-      host: "",
-      dmcaEmail: "",
-      listId: 0,
-      otherEmail: "",
-      phone: "",
-      street: "",
-      street2: "",
-      city: "",
-      state: "",
-      postalCode: "",
-      country: ""
-    },
-    sellers: []
+    appUserId: "",
+    listingUrl: "",
+    imageUrl: "",
+    title: "",
+    sellerId: 0,
+    price: 0,
+    dateCreated: "",
+    dateModified: "",
+    status: "pending",
+    history: "",
+    liveDead: "live",
+    url: "",
+    id: "",
+    sellers: [],
+    modal: false
   };
 
   async componentDidMount() {
+    const url = this.props.match.url;
+    this.setState({ url });
+    if (this.props.match.params.id) {
+      const id = this.props.match.params.id;
+      this.setState({ id }, () => {
+        console.log("id = " + this.state.id);
+        this.loadEditListing();
+      });
+    }
+    this.loadSellerDropDown();
+  }
+
+  async loadEditListing() {
+    const id = this.state.id;
+    const resp = await listing_GetbyId_async(id);
+    this.setState({
+      appUserId: resp.appUserId,
+      id: resp.id,
+      listingUrl: resp.listingUrl,
+      imageUrl: resp.imageUrl,
+      title: resp.title,
+      price: resp.price,
+      sellerId: resp.sellerId,
+      status: resp.status,
+      history: resp.history,
+      liveDead: resp.liveDead
+    });
+
+    console.log(resp);
+  }
+
+  async loadSellerDropDown() {
     const sellers = await seller_GetAll_async();
-    //sort sellers alphabetically
+    // sort sellers alphabetically
     sellers.sort((a, b) => (a.host > b.host ? 1 : b.host > a.host ? -1 : 0));
     this.setState({ sellers }, () => {
+      console.log("new thing");
       console.log(this.state.sellers);
     });
   }
 
-  async onSubmitListing() {
-    const req = this.state.reqListing;
+  onClickSubmit = () => {
+    if (this.state.id) {
+      this.onSubmitUpdate();
+    } else {
+      this.onSubmitNewListing();
+    }
+  };
+
+  async onSubmitNewListing() {
+    const {
+      appUserId,
+      listingUrl,
+      imageUrl,
+      title,
+      sellerId,
+      price,
+      dateCreated,
+      dateModified,
+      status,
+      history,
+      liveDead
+    } = this.state;
+
+    const req = {
+      appUserId,
+      listingUrl,
+      imageUrl,
+      title,
+      sellerId,
+      price,
+      dateCreated,
+      dateModified,
+      status,
+      history,
+      liveDead
+    };
     const response = await listing_Create_async(req);
     console.log(response);
     if (response.status >= 200 && response.status <= 299) {
@@ -59,43 +119,87 @@ class ListingCreate extends React.Component {
     }
   }
 
-  async onSubmitSeller() {
-    const req = this.state.reqSeller;
-    const response = await seller_Create_async(req);
-    if (response.status >= 200 && response.status < 300) {
-      NotificationManager.success("New Seller Created");
+  async onSubmitUpdate() {
+    const {
+      id,
+      appUserId,
+      listingUrl,
+      imageUrl,
+      title,
+      price,
+      sellerId,
+      status,
+      history,
+      liveDead
+    } = this.state;
+
+    const req = {
+      appUserId,
+      id,
+      listingUrl,
+      imageUrl,
+      title,
+      price,
+      sellerId,
+      status,
+      history,
+      liveDead
+    };
+    const response = await listing_Update_async(id, req);
+    if (response.status >= 200 && response.status <= 299) {
+      NotificationManager.success("Status Updated");
+      this.setState({ status, history });
     } else {
-      NotificationManager.error("Database Insert Error");
+      alert("Update Error");
     }
   }
 
   onChange = e => {
-    const { name, value } = e.target;
-    this.setState(state => ({
-      reqListing: {
-        ...state.reqListing,
-        [name]: value
-      }
-    }));
-  };
-
-  onChangeSeller = e => {
-    const { name, value } = e.target;
-    this.setState(state => ({
-      reqSeller: {
-        ...state.reqSeller,
-        [name]: value
-      }
-    }));
+    this.setState({ [e.target.name]: e.target.value });
   };
 
   onClose = () => {
-    this.props.history.push("../homepage");
+    this.props.history.push("../listingList");
   };
 
+  toggleConfirmModal = () => {
+    this.setState({
+      modal: !this.state.modal
+    });
+  };
+
+  confirm = () => {
+    this.toggleConfirmModal();
+    this.DeleteListing(this.state.id);
+  };
+
+  async DeleteListing(id) {
+    if (this.state.id !== -1) {
+      const resp = await listing_Delete_async(id);
+      if (resp.status >= 200 && resp.status <= 299) {
+        NotificationManager.success("Listing Successfully Deleted");
+      } else {
+        NotificationManager.error("Database Insert Error");
+      }
+      this.props.history.push("../listingList");
+    }
+  }
+
   render() {
-    let sellers = this.state.sellers;
-    let optionItems = sellers.map(seller => (
+    const {
+      appUserId,
+      id,
+      listingUrl,
+      imageUrl,
+      title,
+      price,
+      sellerId,
+      status,
+      history,
+      liveDead,
+      sellers
+    } = this.state;
+    const optionItems = sellers.map(seller => (
       <option key={seller.id} value={seller.id}>
         {seller.host}
         {"  ("}
@@ -106,75 +210,115 @@ class ListingCreate extends React.Component {
 
     return (
       <>
-        <div className={styles.root}>
-          <div className={styles.topArea}>
+        <MenuBar />
+
+        <Modal isOpen={this.state.modal} toggle={this.toggleConfirmModal}>
+          <ModalHeader toggle={this.toggleConfirmModal}>
+            &nbsp; DELETE
+          </ModalHeader>
+          <ModalBody>
+            <span className={styles.confirmModalText}>
+              Are you sure you want to delete this listing?
+            </span>
+          </ModalBody>
+          <ModalFooter>
+            <Button color="danger m-0" onClick={this.confirm}>
+              Delete
+            </Button>
+            <Button color="primary" onClick={this.toggleConfirmModal}>
+              Cancel
+            </Button>
+          </ModalFooter>
+        </Modal>
+
+        <div className={styles.mainContainer}>
+          <div className={styles.header}>
             <button className={styles.btnClose} onClick={this.onClose}>
-              <i className="fa fa-times" />
+              <i className="fa fa-times" /> Close
             </button>
           </div>
-          <div className={styles.listingContainer}>
-            <h3>Create Listing</h3>
+          <div className={styles.formContainer}>
+            <h3>{id ? "Edit Listing" : "Create Listing"}</h3>
+
+            {id ? (
+              <>
+                <div>Listing ID:</div>
+                <div>
+                  <Input
+                    className={styles.inputReadOnly}
+                    type="text"
+                    name="Id"
+                    value={id}
+                    readOnly
+                  />
+                </div>
+              </>
+            ) : (
+              <></>
+            )}
+
+            <div>AppUserId:</div>
+            <div>
+              <Input
+                className={styles.input}
+                type="text"
+                name="appUserId"
+                value={appUserId}
+                readOnly
+              />
+            </div>
 
             <div>Listing Url:</div>
             <div>
-              <input
+              <Input
                 className={styles.input}
                 type="text"
                 name="listingUrl"
-                value={this.state.reqListing.listingUrl}
+                value={listingUrl}
                 onChange={this.onChange}
               />
             </div>
 
             <div>Image Url:</div>
             <div>
-              <input
+              <Input
                 className={styles.input}
                 type="text"
                 name="imageUrl"
-                value={this.state.reqListing.imageUrl}
+                value={imageUrl}
                 onChange={this.onChange}
               />
             </div>
 
             <div>Title:</div>
             <div>
-              <input
+              <Input
                 className={styles.input}
                 type="text"
                 name="title"
-                value={this.state.reqListing.title}
+                value={title}
                 onChange={this.onChange}
               />
             </div>
 
             <div>Price:</div>
             <div>
-              <input
+              <Input
                 className={styles.input}
                 type="number"
                 name="price"
-                value={this.state.reqListing.price}
+                value={price}
                 onChange={this.onChange}
               />
             </div>
 
             <div>Seller Id:</div>
             <div>
-              {/* 
-              <input
-                className={styles.input}
-                type="text"
-                name="sellerId"
-                value={this.state.reqListing.sellerId}
-                onChange={this.onChange}
-              /> */}
-
               <Input
                 className={styles.input}
                 type="select"
                 name="sellerId"
-                value={this.state.reqListing.sellerId}
+                value={sellerId}
                 onChange={this.onChange}
               >
                 {optionItems}
@@ -183,145 +327,69 @@ class ListingCreate extends React.Component {
 
             <div>Status:</div>
             <div>
-              <input
+              <Input
                 className={styles.input}
                 type="text"
                 name="status"
-                value={this.state.reqListing.status}
+                value={status}
                 onChange={this.onChange}
               />
             </div>
 
-            <button
-              className={styles.btnSubmit}
-              onClick={() => this.onSubmitListing()}
-            >
-              Submit
-            </button>
-          </div>
-
-          <div className={styles.sellerContainer}>
-            <h3>Create Seller</h3> <div>Host:</div>
-            <div>
-              <input
-                className={styles.input}
-                type="text"
-                name="host"
-                value={this.state.reqSeller.host}
-                onChange={this.onChangeSeller}
-              />
-            </div>
-            <div>DMCA Email:</div>
-            <div>
-              <input
-                className={styles.input}
-                type="text"
-                name="dmcaEmail"
-                value={this.state.reqSeller.dmcaEmail}
-                onChange={this.onChangeSeller}
-              />
-            </div>
-            <div>List ID:</div>
+            <div>History:</div>
             <div>
               <Input
                 className={styles.input}
-                type="select"
-                name="listId"
-                value={this.state.reqSeller.listId}
-                onChange={this.onChangeSeller}
-              >
-                <option value="0">No List</option>
-                <option value="1'">Whitelist</option>
-                <option value="2">Blacklist</option>
-                <option value="5">Testing</option>
-              </Input>
-            </div>
-            <div>Other Email:</div>
-            <div>
-              <input
-                className={styles.input}
                 type="text"
-                name="otherEmail"
-                value={this.state.reqSeller.otherEmail}
-                onChange={this.onChangeSeller}
+                name="history"
+                value={history}
+                onChange={this.onChange}
               />
             </div>
-            <div>Phone:</div>
+            <div>Live/Dead Listing URL</div>
             <div>
-              <input
+              <Input
                 className={styles.input}
                 type="text"
-                name="phone"
-                value={this.state.reqSeller.phone}
-                onChange={this.onChangeSeller}
+                name="liveDead"
+                value={liveDead}
+                onChange={this.onChange}
               />
             </div>
-            <div>Street:</div>
-            <div>
-              <input
-                className={styles.input}
-                type="text"
-                name="street"
-                value={this.state.reqSeller.street}
-                onChange={this.onChangeSeller}
-              />
-            </div>
-            <div>Street2:</div>
-            <div>
-              <input
-                className={styles.input}
-                type="text"
-                name="street2"
-                value={this.state.reqSeller.street2}
-                onChange={this.onChangeSeller}
-              />
-            </div>
-            <div>City:</div>
-            <div>
-              <input
-                className={styles.input}
-                type="text"
-                name="city"
-                value={this.state.reqSeller.city}
-                onChange={this.onChangeSeller}
-              />
-            </div>
-            <div>state:</div>
-            <div>
-              <input
-                className={styles.input}
-                type="text"
-                name="state"
-                value={this.state.reqSeller.state}
-                onChange={this.onChangeSeller}
-              />
-            </div>
-            <div>Postal Code:</div>
-            <div>
-              <input
-                className={styles.input}
-                type="text"
-                name="postalCode"
-                value={this.state.reqSeller.postalCode}
-                onChange={this.onChangeSeller}
-              />
-            </div>
-            <div>Country:</div>
-            <div>
-              <input
-                className={styles.input}
-                type="text"
-                name="country"
-                value={this.state.reqSeller.country}
-                onChange={this.onChangeSeller}
-              />
-            </div>
-            <button
-              className={styles.btnSubmit}
-              onClick={() => this.onSubmitSeller()}
-            >
-              Submit
-            </button>
+          </div>
+          <div className={styles.footer}>
+            {id ? (
+              <i>
+                <button
+                  className={styles.btnSubmitUpdate}
+                  onClick={() => this.onClickSubmit()}
+                >
+                  <i className="fa fa-check mr-2" />
+                  {"  "}
+                  Submit Update
+                </button>
+                <button
+                  className={styles.btnDelete}
+                  onClick={this.toggleConfirmModal}
+                >
+                  <i className="far fa-trash-alt" />
+                  {"  "}
+                  Delete
+                </button>
+              </i>
+            ) : (
+              <i>
+                {" "}
+                <button
+                  className={styles.btnSubmitNewListing}
+                  onClick={() => this.onClickSubmit()}
+                >
+                  <i className="fa fa-check mr-2" />
+                  {"  "}
+                  Submit New Listing
+                </button>{" "}
+              </i>
+            )}
           </div>
         </div>
       </>

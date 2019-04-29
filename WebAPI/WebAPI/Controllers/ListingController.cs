@@ -41,14 +41,8 @@ namespace WebAPI.Controllers
         {
             return listingService.Search(q, pageIndex, pageSize, nonList, whiteList, blackList, prevNone, prevTakeDown, prevNotMyProperty, prevApproved, prevIgnore, liveUrl, deadUrl);
         }
-
-
-
-
-
-
-
-
+             
+                          
         [HttpGet, Route("{id:int}")]
         public Listing GetById(int id)         
         {
@@ -73,5 +67,16 @@ namespace WebAPI.Controllers
             // sends the email                      
             await emailService.Execute(model.InfringingHost, model.InfringingUrl, model.InfringingEmail);
         }
+
+        [HttpDelete, Route ("{id:int}")]
+        public void Delete(int id)
+        {
+            listingService.Delete(id);
+        }
+
+         
+
+
+
     }
 }

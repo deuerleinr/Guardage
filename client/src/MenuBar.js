@@ -11,12 +11,20 @@ class MenuBar extends React.Component {
     dropdownOpen: false
   };
 
-  onClickData = () => {
+  onClickListingCreate = () => {
     this.props.history.push("../listingcreate");
+  };
+
+  onClickSellerCreate = () => {
+    this.props.history.push("../sellercreate");
   };
 
   onClickListingList = () => {
     this.props.history.push("../listinglist");
+  };
+
+  onClickSellerList = () => {
+    this.props.history.push("../sellerlist");
   };
 
   login = () => {
@@ -50,10 +58,16 @@ class MenuBar extends React.Component {
                 Data <i className="fa fa-caret-down" />
               </button>
               <div className={styles.dropdownContent}>
-                <div className={styles.dropdownItem} onClick={this.onClickData}>
+                <div
+                  className={styles.dropdownItem}
+                  onClick={this.onClickListingCreate}
+                >
                   Create Listing
                 </div>
-                <div className={styles.dropdownItem} onClick={this.onClickData}>
+                <div
+                  className={styles.dropdownItem}
+                  onClick={this.onClickSellerCreate}
+                >
                   Create Seller
                 </div>
                 <div
@@ -62,7 +76,12 @@ class MenuBar extends React.Component {
                 >
                   Listing List
                 </div>
-                <div className={styles.dropdownItem}>Seller List</div>
+                <div
+                  className={styles.dropdownItem}
+                  onClick={this.onClickSellerList}
+                >
+                  Seller List
+                </div>
               </div>
             </div>
             <div className={styles.dropdown}>

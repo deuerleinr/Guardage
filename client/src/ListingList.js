@@ -117,7 +117,7 @@ class ListingList extends React.Component {
   };
 
   handleListingClick = id => {
-    this.props.history.push("./listingedit/" + id);
+    this.props.history.push("./listingCreate/" + id);
   };
 
   render() {

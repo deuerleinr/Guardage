@@ -8,6 +8,7 @@ namespace WebAPI.Models
     public class Listing
     {
         public int Id { get; set; }
+        public int AppUserId { get; set; }
         public string ListingUrl { get; set; }
         public string ImageUrl  { get; set; }
         public string Title { get; set; }

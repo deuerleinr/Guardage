@@ -49,6 +49,11 @@ export async function listing_Update_async(id, req) {
   return resp;
 }
 
+export async function listing_Delete_async(id) {
+  const resp = await axios.delete("/api/listings/" + id);
+  return resp;
+}
+
 export async function listing_Create_async(req) {
   const resp = await axios.post("/api/listings", req);
   return resp;

@@ -9,6 +9,8 @@ namespace WebAPI.Models
     public class ListingCreate
     {
         [Required]
+        public int AppUserId { get; set; }
+        [Required]
         public string ListingUrl { get; set; }
         public string ImageUrl { get; set; }
         public string Title { get; set; }

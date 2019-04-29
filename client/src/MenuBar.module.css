@@ -18,7 +18,7 @@
     grid-area: menu-logo; 
     color:white;  
     text-align: center; 
-    background-color:#333333;    
+    background-color:#333333;   
     font: 35px Georgia, sans-serif; 
 } 
  
@@ -45,8 +45,9 @@
 
 .menuLoginItems{
     grid-area: menu-login-items;      
-    background-color:#333333;
+    background-color:#333333; 
     padding: 16px 20px 0 0;  
+    margin: 0 0 0 0;
 }
 
 ul {

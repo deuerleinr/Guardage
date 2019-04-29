@@ -30,6 +30,7 @@ namespace WebAPI.Services
                         var listing = new Listing
                         {
                             Id = (int)reader["id"],
+                            AppUserId = (int)reader["appUserId"],
                             ListingUrl = (string)reader["listingUrl"],
                             ImageUrl = (string)reader["imageUrl"],
                             Title = (string)reader["title"],
@@ -61,6 +62,7 @@ namespace WebAPI.Services
                 cmd.CommandText = "Listing_Create";
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Add("@Id", SqlDbType.Int).Direction = ParameterDirection.Output;
+                cmd.Parameters.AddWithValue("@appUserId", request.AppUserId);
                 cmd.Parameters.AddWithValue("@listingUrl", request.ListingUrl);
                 cmd.Parameters.AddWithValue("@imageUrl", request.ImageUrl);
                 cmd.Parameters.AddWithValue("@title", request.Title);
@@ -94,6 +96,7 @@ namespace WebAPI.Services
                         return null;
                     }
                     listing.Id = (int)reader["id"];
+                    listing.AppUserId = (int)reader["appUserId"];
                     listing.ListingUrl = reader["listingUrl"] as string;
                     listing.ImageUrl = reader["imageUrl"] as string;
                     listing.Title = reader["title"] as string;
@@ -150,6 +153,7 @@ namespace WebAPI.Services
                         var listing = new Listing
                         {
                             Id = (int)reader["id"],
+                            AppUserId = (int)reader["appUserId"],
                             ListingUrl = (string)reader["listingUrl"],
                             ImageUrl = (string)reader["imageUrl"],
                             Title = (string)reader["title"],
@@ -203,7 +207,20 @@ namespace WebAPI.Services
                 cmd.ExecuteNonQuery();
             };
         }
-               
+
+      
+
+        public void Delete(int id)
+        {
+            using (var con = GetConnection())
+            {
+                var cmd = con.CreateCommand();
+                cmd.CommandText = "Listing_Delete";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Id", id);
+                cmd.ExecuteNonQuery();
+            }
+        }     
 
 
         // helper method to create and open a database connection
